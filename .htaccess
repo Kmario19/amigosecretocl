@@ -1,0 +1,10 @@
+RewriteEngine On
+## Evitar que se liste el contenido de los directorios
+Options All -Indexes
+## Lo mismo que lo anterior
+IndexIgnore *
+# Protegerse contra los ataques DOS limitando el tamaño de subida de archivos
+LimitRequestBody 10240000
+
+RewriteRule ^$ index.php [QSA,L]
+RewriteRule ^([A-Za-z0-9_-]+)(\/?)$ index.php?token=$1 [QSA,L]
