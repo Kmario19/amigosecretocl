@@ -25,10 +25,10 @@ function listar_personas()
 {
     $conn = conectar();
 
-    $result = pg_query($conn, "SELECT p.*, f.nombre AS nombre_amigo FROM personas AS p LEFT JOIN personas AS f ON f.token = p.me_toco ORDER BY sexo ASC");
+    $result = pg_query($conn, "SELECT p.name, f.name AS friend_name FROM personas AS p LEFT JOIN personas AS f ON f.token = p.me_toco");
 
     while ($row = pg_fetch_assoc($result)) {
-        echo "A {$row['nombre']} le tocó {$row['nombre_amigo']}<br />";
+        echo "A {$row['name']} le tocó {$row['friend_name']}<br />";
     }
 }
 
@@ -74,8 +74,6 @@ function guardar_personas_bd()
     }
     pg_query($conn, "INSERT INTO personas (nombre, apellido, correo, sexo) VALUES " . implode(',', $insert));
 }
-
-guardar_personas_bd();
 
 function send_emails()
 {
@@ -217,6 +215,14 @@ if (isset($_POST['gustos'])) {
         die("Cambios guardados con éxito.");
     else
         die("Error");
+}
+
+if (isset($_GET['action'])) {
+    switch ($GET['action']) {
+        case 'list':
+            listar_personas();
+            exit;
+    }
 }
 ?>
 <!DOCTYPE html>
