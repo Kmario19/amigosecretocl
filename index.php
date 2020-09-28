@@ -3,10 +3,6 @@ error_reporting(E_ALL);
 
 $web = getenv('WEB_URL');
 
-$personas = array(
-    array("Carlos Ramos", "kmario1019@gmail.com", 'm')
-);
-
 function conectar()
 {
     $host = getenv('DATABASE_HOST');
@@ -61,18 +57,6 @@ function bot()
             pg_query($conn, "UPDATE personas SET le_toque = '{$row['token']}' WHERE token = '$token'");
         }
     }
-}
-
-function guardar_personas_bd()
-{
-    global $personas;
-    $conn = conectar();
-    $insert = [];
-    foreach ($personas as $p) {
-        list($nombre, $apellido) = explode(' ', $p[0]);
-        $insert[] = "('$nombre', '$apellido', '{$p[1]}', '{$p[2]}')";
-    }
-    pg_query($conn, "INSERT INTO personas (nombre, apellido, correo, sexo) VALUES " . implode(',', $insert));
 }
 
 function send_emails()
