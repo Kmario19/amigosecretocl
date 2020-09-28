@@ -174,7 +174,7 @@ if (!empty($token)) {
         $query = pg_query($conn, "SELECT * FROM personas WHERE token = '{$persona['me_toco']}';");
         $me_toca = pg_fetch_assoc($query);
     } else {
-        $query2 = pg_query($conn, "SELECT * FROM personas WHERE sex != '{$persona['sex']}' AND le_toque is null ORDER BY random() LIMIT 1");
+        $query2 = pg_query($conn, "SELECT * FROM personas WHERE sex != '{$persona['sex']}' AND token is not null AND le_toque is null ORDER BY random() LIMIT 1");
         $persona2 = pg_fetch_assoc($query2);
         $token = $persona2['token'];
         // Si no encuentra pareja de distinto sexo se busca otra del mismo
@@ -182,7 +182,7 @@ if (!empty($token)) {
             pg_query($conn, "UPDATE personas SET me_toco = '$token' WHERE token = '{$persona['token']}'");
             pg_query($conn, "UPDATE personas SET le_toque = '{$persona['token']}' WHERE token = '$token'");
         } else {
-            $query2 = pg_query($conn, "SELECT * FROM personas WHERE sex = '{$persona['sex']}' AND le_toque is null AND token != '{$persona['token']}' ORDER BY random() LIMIT 1");
+            $query2 = pg_query($conn, "SELECT * FROM personas WHERE sex = '{$persona['sex']}' AND token is not null AND le_toque is null AND token != '{$persona['token']}' ORDER BY random() LIMIT 1");
             $persona2 = pg_fetch_assoc($query2);
             $token = $persona2['token'];
             if (!empty($token)) {
@@ -253,7 +253,7 @@ if (isset($_GET['action'])) {
                             <button type="button" class="waves-effect activator waves-light btn pulse" onclick="load_amigo()">Continuar</button>
                         </div>
                         <div class="card-reveal">
-                            <span class="card-title grey-text text-darken-4 center-align">TU AMIGO SECRETO ES...<i class="material-icons right">close</i></span>
+                            <span class="card-title grey-text text-darken-4 center-align">TU AMIGO SECRETO ES:</span>
                             <?php if (empty($persona['me_toco'])) { ?>
                                 <div class="center-align" style="margin-top: 100px;" id="loading">
                                     <div class="preloader-wrapper big active">
@@ -317,7 +317,9 @@ if (isset($_GET['action'])) {
                                                 <strong>Teléfono:</strong> <?= $me_toca['cellphone'] ?>
                                             </li>
                                             <li class="collection-item"><strong>Dirección:</strong> <?= $me_toca['direction'] ?></li>
-                                            <li class="collection-item"><strong>Referencia:</strong> <?= $me_toca['reference'] ?></li>
+                                            <?php if ($me_toca['reference']) { ?>
+                                                <li class="collection-item"><strong>Referencia:</strong> <?= $me_toca['reference'] ?></li>
+                                            <?php } ?>
                                             <li class="collection-item"><strong>Gustos:</strong> <?= $me_toca['reference'] ?: "{$me_toca['name']} no ha compartido sus gustos todavia, vuelve luego a ver si ya lo ha hecho.";  ?></li>
                                         </ul>
                                     <?php } else { ?>
