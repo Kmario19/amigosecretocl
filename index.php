@@ -321,7 +321,7 @@ if (isset($_GET['action'])) {
                                             <?php if ($me_toca['reference']) { ?>
                                                 <li class="collection-item"><strong>Referencia:</strong> <?= $me_toca['reference'] ?></li>
                                             <?php } ?>
-                                            <li class="collection-item"><strong>Gustos:</strong> <?= $me_toca['reference'] ?: "{$me_toca['name']} no ha compartido sus gustos todavia, vuelve luego a ver si ya lo ha hecho.";  ?></li>
+                                            <li class="collection-item"><strong>Gustos:</strong> <?= $me_toca['likes'] ?: "{$me_toca['name']} no ha compartido sus gustos todavia, vuelve luego a ver si ya lo ha hecho.";  ?></li>
                                         </ul>
                                     <?php } else { ?>
                                         <div class="center-align">
