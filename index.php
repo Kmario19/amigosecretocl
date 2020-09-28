@@ -201,7 +201,8 @@ function generateRandomString($length = 5)
 
 // Ajax
 if (isset($_POST['gustos'])) {
-    if (pg_query($conn, "UPDATE personas SET likes = '" . htmlspecialchars($_POST['gustos']) . "' WHERE token = '$token'"))
+    pg_prepare($conn, 'update_personas', "UPDATE personas SET likes = $1 WHERE token = '$token'");
+    if (pg_execute($conn, 'update_personas', [$_POST['gustos']]))
         die("Cambios guardados con éxito.");
     else
         die("Error");
