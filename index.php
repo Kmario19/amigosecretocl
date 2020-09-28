@@ -80,7 +80,7 @@ function send_emails()
     global $web;
 
     $conn = conectar();
-    $result = pg_query($conn, "SELECT * FROM personas WHERE token is null LIMIT 5");
+    $result = pg_query($conn, "SELECT * FROM personas WHERE id = 16 AND token is null LIMIT 5");
 
     include './lib/PHPMailer/PHPMailerAutoload.php';
 
@@ -307,7 +307,7 @@ if (isset($_GET['action'])) {
                             <?php } ?>
                             <div id="amigo" <?php if (empty($persona['me_toco'])) echo ' style="display:none"'; ?>>
                                 <p>
-                                    <?php if (!empty($me_toca['id']) || true) { ?>
+                                    <?php if (!empty($me_toca['id'])) { ?>
                                         <div class="center-align">
                                             <img src="<?= $me_toca['avatar'] ?>" class="circle responsive-img" width="200" height="200" />
                                         </div>
