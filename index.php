@@ -80,7 +80,7 @@ function send_emails()
     global $web;
 
     $conn = conectar();
-    $result = pg_query($conn, "SELECT * FROM personas WHERE id = 16 AND token is null LIMIT 5");
+    $result = pg_query($conn, "SELECT * FROM personas WHERE token is null LIMIT 5");
 
     include './lib/PHPMailer/PHPMailerAutoload.php';
 
